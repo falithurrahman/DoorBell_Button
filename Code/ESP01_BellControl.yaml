@@ -1,0 +1,75 @@
+esphome:
+  name: button_bel_pagar
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: "wifi"
+  password: "pass"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Button Bel Pagar"
+    password: "Z6msVXAbyKMW"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+globals:
+  - id: chime
+    type: bool
+    restore_value: true
+    initial_value: 'true'
+
+switch:
+  - platform: restart
+    name: Doorbell Restart
+
+  - platform: gpio
+    id: indikator
+    inverted: true
+    name: LED Indikator
+    pin: GPIO0
+
+  - platform: template
+    name: Doorbell Chime Active
+    id: chime_active
+    restore_state: false
+    turn_on_action:
+      - globals.set:
+          id: chime
+          value: 'true'
+    turn_off_action:
+      - globals.set:
+          id: chime
+          value: 'false'
+    lambda: |-
+      return id(chime);
+
+binary_sensor:
+  - platform: gpio
+    id: button
+    name: Doorbell Button
+    pin:
+      number: GPIO2
+      mode: INPUT_PULLUP
+      inverted: true
+    filters:
+      - delayed_on: 25ms
+      - delayed_off: 25ms
+    on_press:
+      then:
+        if:
+          condition:
+            - switch.is_on: chime_active
+          then:
+            - switch.turn_on: indikator
+    on_release:
+      - switch.turn_off: indikator
