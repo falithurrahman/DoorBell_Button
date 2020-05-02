@@ -73,3 +73,20 @@ Next step, we will play the audio file stored in local drive through home assist
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_2.JPG" alt="drawing" width="600"/> <br>
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_3.JPG" alt="drawing" width="600"/> <br>
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_4.JPG" alt="drawing" width="600"/> <br>
+Or in short, you can access the link below <br>
+http://"home_assistant_server_IP":6680/iris/library/browse/local%3Adirectory%3Ftype%3Dtrack <br>
+Replace home_assistant_server_IP with the IP of home assistant without "" mark.
+* Find audio file we need, click on the three dots (...) and click on "Copy URI". Now we have the internal ID of this file in our clipboard. <br>
+<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_5.JPG" alt="drawing" width="600"/> <br>
+<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_6.JPG" alt="drawing" width="600"/> <br>
+* Go to developer tools -> service tab. Choose 'media_player.play_media' for service and 'media_player.mpd' for entity. For service data, fill it with line below
+    ````yaml
+    {
+    "entity_id": "media_player.mpd",
+    "media_content_type": "music",
+    "media_content_id": "..."
+    }
+    ````
+    Replace the media_content_id value with the URI file we copy. <br>
+    <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_7.JPG" alt="drawing" width="600"/> <br>
+* Click "Call Service". The file should now be played via the 3.5mm headphone jack. Now we can use it in any automation.
