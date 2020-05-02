@@ -1,1 +1,2 @@
-DoorBell_Project
+### Description
+In this repository, i made a doorbell using ESP8266-01 as a controller. This doorbell will play a notification sound through 3.5mm audio jack in my laptop, since i install home assistant server on docker in Ubuntu laptop. The audio jack in my laptop is connected to external speaker that will boost notification sound volume.I will cover up the detail step below.
