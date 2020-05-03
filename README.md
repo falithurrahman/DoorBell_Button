@@ -81,7 +81,7 @@ Next step, we will play the audio file stored in local drive through home assist
 </p>
 Or in short, you can access the link below <br>
 http://"home_assistant_server_IP":6680/iris/library/browse/local%3Adirectory%3Ftype%3Dtrack <br>
-Replace home_assistant_server_IP with the IP of home assistant without "" mark.
+Replace home_assistant_server_IP with the IP of home assistant without "" mark. <br>
 * Find audio file we need, click on the three dots (...) and click on "Copy URI". Now we have the internal ID of this file in our clipboard. <br>
 <p align="center">
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_5.JPG" alt="drawing" width="600"/> <br>
