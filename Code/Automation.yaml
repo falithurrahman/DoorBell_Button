@@ -1,0 +1,27 @@
+- id: '1588355276188'
+  alias: bell_notification
+  description: ''
+  trigger:
+  - device_id: fa7c4fb68a094c0d881111133a7ee270
+    domain: binary_sensor
+    entity_id: binary_sensor.doorbell_button
+    for:
+      milliseconds: 30
+    platform: device
+    type: turned_on
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.mpd
+      volume_level: 0.5
+    entity_id: media_player.mpd
+    service: media_player.volume_set
+  - data:
+      entity_id: media_player.mpd
+      media_content_id: local:track:salam_sound.mp3
+      media_content_type: music
+    entity_id: media_player.mpd
+    service: media_player.play_media
+  - data:
+      message: Ada Tamu!
+    service: notify.all_devices
