@@ -13,7 +13,9 @@ Here is the parts we need to make physical doorbell button.
 
 #### Wiring Diagram
 This section will cover wiring diagram from doorbell button. The detailed schematic and board file can be downloaded in the controller board folder. <br>
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/Controller%20Board/Schematic.JPG" alt="drawing" width="600"/> <br>
+<p align="center">
+<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/Controller%20Board/Schematic.JPG" alt="drawing" width="600"/>
+</p>
 I used 2x 18650 Li-Ion battery to power this circuit. Those batteries will have parallel connection to increase the capacity (mAh). Higher capacity will make this battery more durable. I have tried this configuration, and the battery i use can last 4-5 days. So i have to replace the battery once every 4-5 days for charging.
 
 #### Code
@@ -68,17 +70,23 @@ In the example above, i place my mp3 file inside /share/mopidy/media. Then, rest
 Next step, we will play the audio file stored in local drive through home assistant. To play the audio, follow the steps below.
 * Go to Mopidy add-ons store page, and open web user interface. 
 * We will see there are three options: image, iris, moped.Click on iris. <br>
+<p align="center">
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_1.JPG" alt="drawing" width="600"/>
+</p>
 * At iris homepage, go to browse -> local media -> tracks
+<p align="center">
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_2.JPG" alt="drawing" width="600"/> <br>
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_3.JPG" alt="drawing" width="600"/> <br>
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_4.JPG" alt="drawing" width="600"/> <br>
+</p>
 Or in short, you can access the link below <br>
 http://"home_assistant_server_IP":6680/iris/library/browse/local%3Adirectory%3Ftype%3Dtrack <br>
 Replace home_assistant_server_IP with the IP of home assistant without "" mark.
 * Find audio file we need, click on the three dots (...) and click on "Copy URI". Now we have the internal ID of this file in our clipboard. <br>
+<p align="center">
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_5.JPG" alt="drawing" width="600"/> <br>
 <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_6.JPG" alt="drawing" width="600"/> <br>
+</p>
 * Go to developer tools -> service tab. Choose 'media_player.play_media' for service and 'media_player.mpd' for entity. For service data, fill it with line below
     ````yaml
     {
@@ -88,5 +96,7 @@ Replace home_assistant_server_IP with the IP of home assistant without "" mark.
     }
     ````
     Replace the media_content_id value with the URI file we copy. <br>
+    <p align="center">
     <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_7.JPG" alt="drawing" width="600"/> <br>
+    </p>
 * Click "Call Service". The file should now be played via the 3.5mm headphone jack. Now we can use it in any automation.
