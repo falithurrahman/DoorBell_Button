@@ -69,24 +69,24 @@ In the example above, i place my mp3 file inside /share/mopidy/media. Then, rest
 
 Next step, we will play the audio file stored in local drive through home assistant. To play the audio, follow the steps below.
 * Go to Mopidy add-ons store page, and open web user interface. 
-* We will see there are three options: image, iris, moped.Click on iris. <br>
-<p align="center">
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_1.JPG" alt="drawing" width="600"/>
-</p>
+* We will see there are three options: image, iris, moped.Click on iris.
+  <p align="center">
+  <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_1.JPG" alt="drawing" width="600"/>
+  </p> 
 * At iris homepage, go to browse -> local media -> tracks
-<p align="center">
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_2.JPG" alt="drawing" width="600"/> <br>
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_3.JPG" alt="drawing" width="600"/> <br>
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_4.JPG" alt="drawing" width="600"/> <br>
-</p>
+  <p align="center">
+  <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_2.JPG" alt="drawing" width="600"/> <br>
+  <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_3.JPG" alt="drawing" width="600"/> <br>
+  <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_4.JPG" alt="drawing" width="600"/> <br>
+  </p>
 Or in short, you can access the link below <br>
 http://"home_assistant_server_IP":6680/iris/library/browse/local%3Adirectory%3Ftype%3Dtrack <br>
 Replace home_assistant_server_IP with the IP of home assistant without "" mark. <br>
 * Find audio file we need, click on the three dots (...) and click on "Copy URI". Now we have the internal ID of this file in our clipboard. <br>
-<p align="center">
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_5.JPG" alt="drawing" width="600"/> <br>
-<img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_6.JPG" alt="drawing" width="600"/> <br>
-</p>
+  <p align="center">
+  <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_5.JPG" alt="drawing" width="600"/> <br>
+  <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_6.JPG" alt="drawing" width="600"/> <br>
+  </p>
 * Go to developer tools -> service tab. Choose 'media_player.play_media' for service and 'media_player.mpd' for entity. For service data, fill it with line below
     ````yaml
     {
@@ -100,3 +100,37 @@ Replace home_assistant_server_IP with the IP of home assistant without "" mark. 
     <img src="https://github.com/falithurrahman/DoorBell_Project/blob/master/MopidyUI_7.JPG" alt="drawing" width="600"/> <br>
     </p>
 * Click "Call Service". The file should now be played via the 3.5mm headphone jack. Now we can use it in any automation.
+
+#### Adding Automation
+Now we reached the step when we finished configuring both hardware and software. The last step is to combine both of them by creating automation. I attach my automation.yaml file inside code folder. There are several things that i'd like to highlight. First is volume setting for our mp3 audio notification. We can adjust the volume by calling service called `media_player.volume_set`. The volume that we can set ranged from 0 to 1. I use 0.5 in my automation.
+````yaml
+  action:
+  - data:
+      entity_id: media_player.mpd
+      volume_level: 0.5
+    entity_id: media_player.mpd
+    service: media_player.volume_set
+````
+Second is notification feature within home assistant apps. If we installed home assistant in our android or iOS phone, we can send a push notification everytime the automation happens. We do it by call service named `notify`. If we have more than one device and we want to send the notification at once, we have to modify `configuration.yaml` file. We add this line. `service:` is the name of our device. We can add more than one device.
+````yaml
+notify:
+  - name: ALL_DEVICES
+    platform: group
+    services:
+      - service: mobile_app_mi_9
+      - service: mobile_app_asus_z010d
+      - service: mobile_app_asus_z00ed
+      - service: mobile_app_asus_t00f
+````
+Within the `automation.yaml` file, we call `notify.all_devices` service since the group name of our device is `ALL_DEVICES` in the `configuration.yaml file`.
+````yaml
+  action:
+  - data:
+      message: Ada Tamu!
+    service: notify.all_devices
+````
+
+#### References
+* TTS using built in RPi3 analogue audio output with Hassio <br>
+https://community.home-assistant.io/t/tts-using-built-in-rpi3-analogue-audio-output-with-hassio/32475
+* 
